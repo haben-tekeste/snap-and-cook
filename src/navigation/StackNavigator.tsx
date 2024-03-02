@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { ScannerScreen, SplashScreen } from "../screens";
+import { SplashScreen, IngredientsScreen, HomeScreen } from "../screens";
 import Header from "../Components/Header";
 const Stack = createStackNavigator();
 
@@ -12,11 +12,24 @@ export const StackNavigator = () => {
         options={{ headerShown: false }}
       /> */}
       <Stack.Screen
-        name="Scanner"
-        component={ScannerScreen}
+        name="Home"
+        component={HomeScreen}
         options={{
           headerShown: true,
           headerTitle: () => <Header title="Snap & Cook" />,
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerLeft: () => null,
+        }}
+      />
+      <Stack.Screen
+        name="Ingredients"
+        component={IngredientsScreen}
+        options={{
+          headerShown: true,
+          headerTitle: () => <Header title="Snap & Cook " />,
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,

@@ -14,7 +14,7 @@ function SplashScreen() {
         loop={false}
         onAnimationFinish={() => {
           console.log("done");
-          navigation.navigate("Scanner");
+          navigation.navigate("Home");
         }}
         style={{
           width: 400,

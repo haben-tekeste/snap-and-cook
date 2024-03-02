@@ -16,5 +16,6 @@ export const useStyles = (theme: CustomTheme) => {
       fontFamily: "SpaceGrotesk_700Bold",
       fontSize: 20,
     },
+    
   });
 };

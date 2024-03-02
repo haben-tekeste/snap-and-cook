@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export type TStackNavigation = {
-  Scanner: any;
+  Home: any;
   Splash: any;
 };
 

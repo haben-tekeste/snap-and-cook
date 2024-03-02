@@ -1,6 +1,5 @@
 import { StyleSheet, StatusBar, Platform } from "react-native";
 import { CustomTheme } from "../../types/theme";
-import { red100 } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 export const useStyles = (theme: CustomTheme) => {
@@ -8,8 +7,8 @@ export const useStyles = (theme: CustomTheme) => {
     container: {
       flex: 1,
       backgroundColor: theme.colors.mainBackgroundColor,
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight / 4 : 0,
-      paddingBottom: StatusBar.currentHeight,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight / 2 : 0,
+      // paddingBottom: StatusBar.currentHeight,
       justifyContent: "space-between",
     },
     subTitle: {
@@ -17,9 +16,10 @@ export const useStyles = (theme: CustomTheme) => {
       fontSize: 16,
       textAlign: "center",
       marginTop: 5,
+      paddingHorizontal: 4,
     },
     icons: {
-      marginTop: 40,
+      marginTop: 35,
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
@@ -51,6 +51,7 @@ export const useStyles = (theme: CustomTheme) => {
     btnContainer: {
       marginTop: 46,
       alignItems: "center",
+      marginBottom: StatusBar.currentHeight,
     },
     btnLabel: {
       fontFamily: "SpaceGrotesk_700Bold",
