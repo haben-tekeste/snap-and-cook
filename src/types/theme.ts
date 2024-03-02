@@ -7,6 +7,7 @@ export type CustomTheme = {
     success: string;
     warning: string;
     error: string;
+    gray: string;
   };
 };
 

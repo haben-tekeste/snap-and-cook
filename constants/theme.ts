@@ -7,6 +7,7 @@ export const defaultTheme = {
     success: "#2cd113",
     warning: "#f7a205",
     error: "#db1d0f",
+    gray: "#B2BEB5",
   },
   dark: false,
 };
@@ -20,6 +21,7 @@ export const darkTheme = {
     success: "#2cd113",
     warning: "#f7a205",
     error: "#db1d0f",
+    gray: "#B2BEB5",
   },
   dark: true,
 };
