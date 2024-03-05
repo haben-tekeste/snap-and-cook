@@ -1,29 +1,36 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, Image, Pressable } from "react-native";
-import {
-  Text,
-  Button,
-  Surface,
-  Icon,
-  MD3Colors,
-  TouchableRipple,
-} from "react-native-paper";
+import { Text, Button, Surface, Icon, Modal, Portal } from "react-native-paper";
 import { useStyles } from "./style";
+import { useImagePicker } from "../../hooks/useImagePicker";
 import { useAppSelector } from "../../store";
 import Camera from "../../Components/Camera";
+import ImagePreview from "../../Components/ImagePreview";
 
 function ScannerScreen() {
   const [cameraOn, setCameraOn] = useState<boolean>(false);
+  const [image, setImage] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useAppSelector((state) => state.theme);
   const styles = useStyles(theme);
+  const [imagePickError, pickImage, clear] = useImagePicker({ setImage });
 
+  //
   const startCamera = () => setCameraOn(true);
   const stopCamera = () => setCameraOn(false);
-  console.log(cameraOn);
+  const showModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
+  const retry = () => {
+    setCameraOn(false);
+    setImage("");
+    setModalVisible(false);
+    clear();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {cameraOn ? (
-        <Camera />
+        <Camera setImage={setImage} stopCamera={stopCamera} />
       ) : (
         <>
           <View>
@@ -34,22 +41,37 @@ function ScannerScreen() {
               </Text>
             </View>
             <View style={styles.icons}>
-              <View style={styles.icon}>
+              <Pressable style={styles.icon} onPress={pickImage}>
                 <Icon source="image-multiple-outline" size={23} />
-              </View>
+              </Pressable>
               <Pressable style={styles.icon} onPress={startCamera}>
                 <Icon source="camera" size={37} />
               </Pressable>
-              <Pressable style={styles.icon}>
+              <Pressable style={styles.icon} onPress={retry}>
                 <Icon source="refresh" size={23} />
               </Pressable>
             </View>
+            <Portal>
+              <Modal
+                visible={modalVisible}
+                onDismiss={hideModal}
+                contentContainerStyle={styles.modal}
+              >
+                {image && <ImagePreview uri={image} />}
+              </Modal>
+            </Portal>
+            {image && (
+              <Button onPress={showModal} style={styles.previewBtn}>
+                View Image
+              </Button>
+            )}
           </View>
           <View style={styles.btnContainer}>
             <Button
               mode="contained"
               labelStyle={styles.btnLabel}
-              style={styles.btn}
+              style={[styles.btn,{backgroundColor: image ? theme.colors.primary : '#9dccaa'}]}
+              disabled={image ? false : true}
             >
               Next
             </Button>

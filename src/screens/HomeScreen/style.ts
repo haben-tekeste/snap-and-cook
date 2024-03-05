@@ -1,6 +1,9 @@
 import { StyleSheet, StatusBar, Platform } from "react-native";
 import { CustomTheme } from "../../types/theme";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export const useStyles = (theme: CustomTheme) => {
   return StyleSheet.create({
@@ -44,6 +47,22 @@ export const useStyles = (theme: CustomTheme) => {
         },
       }),
     },
+    modal: {
+      backgroundColor: theme.colors.mainBackgroundColor,
+      padding: 15,
+      height: hp("68%"),
+      marginHorizontal: 5,
+    },
+
+    preview: {
+      marginTop: 30,
+      alignItems: "center",
+    },
+    previewBtn: {
+      color: theme.colors.primary,
+      fontFamily: "SpaceGrotesk_700Bold",
+      marginTop: 25,
+    },
     btn: {
       width: wp("90%"),
       paddingVertical: 4,
@@ -57,5 +76,6 @@ export const useStyles = (theme: CustomTheme) => {
       fontFamily: "SpaceGrotesk_700Bold",
       fontSize: 18,
     },
+    disabledBtn: {},
   });
 };

@@ -2,56 +2,28 @@ import React, { useState, useEffect, useRef } from "react";
 import { CameraType, Camera as ExpoCamera, FlashMode } from "expo-camera";
 import { View, Alert, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
+import { useCapturePhoto } from "../../hooks/useCapturePhoto";
 import { useAppSelector } from "../../store";
 import { useStyles } from "./style";
 
-function Camera() {
-  const [camera, setCamera] = useState<ExpoCamera | null>(null);
-  const [cameraStatus, setCameraStatus] = useState(false);
-  const [isCameraReady, setIsCameraReady] = useState(false);
-  const [flashMode, setFlashMode] = useState<FlashMode>(FlashMode.off);
+interface CameraProps {
+  setImage: (value: string) => void;
+  stopCamera: () => void;
+}
+
+function Camera({ setImage, stopCamera }: CameraProps) {
+  const [flashMode, handleFlashMode, takePicture, setCamera, setIsCameraReady] =
+    useCapturePhoto();
   const { theme } = useAppSelector((state) => state.theme);
   const styles = useStyles(theme);
-  const handleCameraPermission = async () => {
-    const { status } = await ExpoCamera.requestCameraPermissionsAsync();
-    if (status === "granted") setCameraStatus(true);
-    else Alert.alert("Camera permission denied");
-  };
 
-  const handleFlashMode = () => {
-    if (flashMode === "on") {
-      setFlashMode("off");
-    } else if (flashMode === "off") {
-      setFlashMode("on");
-    } else {
-      setFlashMode("auto");
-    }
-  };
-
-  const onCameraReady = () => setIsCameraReady(true);
-
-  const takePicture = async () => {
-    try {
-      if (camera) {
-        const photo: any = await camera.takePictureAsync();
-        console.log(photo);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    handleCameraPermission();
-  }, []);
-  //   if (!cameraStatus) return;
   return (
     <View style={styles.container}>
       <ExpoCamera
         ref={(ref) => setCamera(ref)}
         style={styles.camera}
         flashMode={FlashMode[flashMode]}
-        onCameraReady={onCameraReady}
+        onCameraReady={() => setIsCameraReady(true)}
       >
         <View
           style={{
@@ -107,7 +79,12 @@ function Camera() {
               }}
             >
               <TouchableOpacity
-                onPress={takePicture}
+                onPress={() => {
+                  takePicture((uri) => {
+                    setImage(uri);
+                    stopCamera();
+                  });
+                }}
                 style={{
                   width: 70,
                   height: 70,
