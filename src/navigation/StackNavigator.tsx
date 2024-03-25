@@ -11,7 +11,7 @@ export const StackNavigator = () => {
         component={SplashScreen}
         options={{ headerShown: false }}
       /> */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -23,7 +23,7 @@ export const StackNavigator = () => {
           },
           headerLeft: () => null,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="Ingredients"
         component={IngredientsScreen}
