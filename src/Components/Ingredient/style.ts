@@ -8,15 +8,15 @@ import { CustomTheme } from "../../types/theme";
 export const useStyles = (theme: CustomTheme) => {
   return StyleSheet.create({
     container: {
-      marginTop: 18,
-      width: wp("28%"),
-      height: hp("16%"),
-      borderWidth: 1,
-      marginRight: 10,
-      borderRadius: 6,
-      padding: 6,
-      borderColor: theme.colors.gray,
-      justifyContent: "space-around",
+      // marginTop: 18,
+      // width: wp("28%"),
+      // height: hp("16%"),
+      // borderWidth: 1,
+      // marginRight: 10,
+      // borderRadius: 6,
+      // padding: 6,
+      // borderColor: theme.colors.gray,
+      // justifyContent: "space-around",
     },
     img: {
       width: "60%",
@@ -29,6 +29,13 @@ export const useStyles = (theme: CustomTheme) => {
     subTitle: {
       fontFamily: "SpaceGrotesk_400Regular",
       color: "#638763",
+    },
+    chip: {
+      backgroundColor: theme.colors.primary,
+      color: theme.colors.mainTextColor,
+    },
+    chipText: {
+      fontFamily: "SpaceGrotesk_400Regular",
     },
   });
 };
