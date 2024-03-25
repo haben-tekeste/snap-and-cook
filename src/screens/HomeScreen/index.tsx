@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Image, Pressable } from "react-native";
 import { Text, Button, Surface, Icon, Modal, Portal } from "react-native-paper";
+import mime from "mime";
+import FormData from "form-data";
 import { useStyles } from "./style";
+import { useGetIngredientsFromImageMutation } from "../../services/ingredients";
 import { useImagePicker } from "../../hooks/useImagePicker";
 import { useAppSelector } from "../../store";
 import Camera from "../../Components/Camera";
 import ImagePreview from "../../Components/ImagePreview";
+import { useAppNavigation } from "../../store";
+import Loader from "../../Components/Loader";
 
 function ScannerScreen() {
   const [cameraOn, setCameraOn] = useState<boolean>(false);
   const [image, setImage] = useState("");
+  const [blob, setBlob] = useState<Blob | undefined>(undefined);
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useAppSelector((state) => state.theme);
+  const [imagePickError, pickImage, clear] = useImagePicker({
+    setImage,
+    setBlob,
+  });
+  const [
+    getIngredientsFromImage,
+    { isError, isSuccess, isLoading, data, error },
+  ] = useGetIngredientsFromImageMutation();
   const styles = useStyles(theme);
-  const [imagePickError, pickImage, clear] = useImagePicker({ setImage });
+  const { navigate } = useAppNavigation();
 
   //
   const startCamera = () => setCameraOn(true);
@@ -24,13 +38,45 @@ function ScannerScreen() {
     setCameraOn(false);
     setImage("");
     setModalVisible(false);
+    setBlob(undefined);
     clear();
   };
+
+  const handleNavigation = async () => {
+    if (blob) {
+      navigate("Ingredients", {
+        file: image,
+      });
+    }
+  };
+
+  const handleSubmit = () => {
+    const body = new FormData();
+    const imgData = {
+      uri: image,
+      type: mime.getType(image),
+      name: image.split("/").pop(),
+    };
+    body.append("image", imgData);
+    getIngredientsFromImage(body);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("Ingredients", {
+        data: data?.items,
+      });
+    }
+  }, [isSuccess]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       {cameraOn ? (
-        <Camera setImage={setImage} stopCamera={stopCamera} />
+        <Camera setImage={setImage} stopCamera={stopCamera} setBlob={setBlob} />
       ) : (
         <>
           <View>
@@ -70,8 +116,12 @@ function ScannerScreen() {
             <Button
               mode="contained"
               labelStyle={styles.btnLabel}
-              style={[styles.btn,{backgroundColor: image ? theme.colors.primary : '#9dccaa'}]}
+              style={[
+                styles.btn,
+                { backgroundColor: image ? theme.colors.primary : "#9dccaa" },
+              ]}
               disabled={image ? false : true}
+              onPress={handleSubmit}
             >
               Next
             </Button>

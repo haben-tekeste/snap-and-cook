@@ -10,7 +10,7 @@ export const useStyles = (theme: CustomTheme) => {
     container: {
       flex: 1,
       backgroundColor: theme.colors.mainBackgroundColor,
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight / 2 : 0,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight! / 2 : 0,
       // paddingBottom: StatusBar.currentHeight,
       justifyContent: "space-between",
     },
