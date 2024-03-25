@@ -9,11 +9,12 @@ import { useStyles } from "./style";
 interface CameraProps {
   setImage: (value: string) => void;
   stopCamera: () => void;
+  setBlob: (blob: Blob | undefined) => void
 }
 
-function Camera({ setImage, stopCamera }: CameraProps) {
+function Camera({ setImage, stopCamera, setBlob }: CameraProps) {
   const [flashMode, handleFlashMode, takePicture, setCamera, setIsCameraReady] =
-    useCapturePhoto();
+    useCapturePhoto(setBlob);
   const { theme } = useAppSelector((state) => state.theme);
   const styles = useStyles(theme);
 

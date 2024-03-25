@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Camera, CameraCapturedPicture, FlashMode } from "expo-camera";
 import { Alert } from "react-native";
+import { fetchImageBlob } from "../../util";
 
 type useCapturePhotoResults = [
   FlashMode,
@@ -10,7 +11,9 @@ type useCapturePhotoResults = [
   (value: boolean) => void
 ];
 
-export const useCapturePhoto = (): useCapturePhotoResults => {
+export const useCapturePhoto = (
+  setBlob: (blob: Blob | undefined) => void,
+): useCapturePhotoResults => {
   const [camera, setCamera] = useState<Camera | null>();
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [flashMode, setFlashMode] = useState<FlashMode>(FlashMode.off);
@@ -30,6 +33,8 @@ export const useCapturePhoto = (): useCapturePhotoResults => {
       if (!permission?.granted) return Alert.alert("Camera permission denied");
       if (camera) {
         const photo: CameraCapturedPicture = await camera.takePictureAsync();
+        const file = await fetchImageBlob(photo?.uri);
+        setBlob(file);
         cb(photo?.uri);
       }
     } catch (error) {
@@ -38,9 +43,8 @@ export const useCapturePhoto = (): useCapturePhotoResults => {
   };
 
   const clear = () => {
-    setIsCameraReady(false)
-    
-  }
+    setIsCameraReady(false);
+  };
 
   return [flashMode, handleFlashMode, takePicture, setCamera, setIsCameraReady];
 };
