@@ -7,6 +7,7 @@ export const useStyles = (theme: CustomTheme) => {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: theme.colors.mainBackgroundColor,
     },
     text: {
       fontFamily: "SpaceGrotesk_700Bold",

@@ -16,8 +16,7 @@ function Loader() {
           style={{
             width: 400,
             height: 300,
-            //   backgroundColor: "#eee",
-            borderColor: "red",
+            backgroundColor: theme.colors.mainBackgroundColor,
           }}
           source={require("@assets/Loading.json")}
         />
