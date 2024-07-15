@@ -9,11 +9,11 @@ import {
   TextInput,
 } from "react-native-paper";
 import { useRoute, RouteProp } from "@react-navigation/native";
-import { useAppSelector } from "../../store";
+import { useAppNavigation, useAppSelector } from "../../store";
 import { useStyles } from "./style";
-import Ingredient from "../../Components/Ingredient";
+import Ingredient from "@components/Ingredient";
 import { StackParamList } from "../../types/navigation";
-import { apiResultsMapper } from "../../utils/api";
+import { apiResultsMapper } from "@utils/api";
 
 type IngredientsScreenRouteProp = RouteProp<
   StackParamList,
@@ -23,43 +23,13 @@ type IngredientsScreenRouteProp = RouteProp<
 // const FormData = global.FormData;
 
 function IngredientsScreen() {
-  const [loading, setLoading] = useState(true);
   const { params } = useRoute<IngredientsScreenRouteProp>();
-  const { theme } = useAppSelector((state) => state.theme);
+  const { theme, darkMode } = useAppSelector((state) => state.theme);
   const [modalVisible, setModalVisible] = useState(false);
   const [ingredient, setIngredient] = useState("");
-  const [DATA, setDATA] = useState([
-    "Cut avocado",
-    "Spinach salad",
-    "Cherry tomatoes",
-    "Hard-boiled egg",
-    "Arugula",
-    "Chive",
-    "White mushrooms",
-    "Chili pepper",
-  ]);
-  // const body = new FormData();
-  // const imgData = {
-  //   uri: params?.file,
-  //   type: mime.getType(params?.file),
-  //   name: params.file.split("/").pop(),
-  // };
-  // body.append("image", imgData);
-  // const [getIngredientsFromImage, { isError, isLoading, data, error }] =
-  //   useGetIngredientsFromImageMutation();
-  // console.log("Data =>  ", apiResultsMapper(params?.data));
+  const [DATA, setDATA] = useState(apiResultsMapper(params?.data) || []);
   const styles = useStyles(theme);
-  // const DATA = [
-  //   "Cut avocado",
-  //   "Spinach salad",
-  //   "Cherry tomatoes",
-  //   "Hard-boiled egg",
-  //   "Arugula",
-  //   "Chive",
-  //   "White mushrooms",
-  //   "Chili pepper",
-  // ];
-
+  const { navigate } = useAppNavigation();
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
   const addIngredient = () => {
@@ -69,23 +39,18 @@ function IngredientsScreen() {
     setModalVisible(false);
   };
   const removeIngredient = (text: string) => {
-    console.log(text);
     if (DATA.includes(text))
       setDATA((prev) => {
         return prev.filter((item) => item !== text);
       });
   };
-  // useEffect(() => {
-  //   getIngredientsFromImage(body);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(isLoading);
-  // }, [isLoading]);
-
-  // // if (!isLoading) return <Loader />;
-  // console.log("result", isError, isLoading, data?.items, error);
-
+  const handleNavigation = () => {
+    if (DATA.length) {
+      navigate("RecipeList", {
+        data: DATA.join(","),
+      });
+    }
+  };
   return (
     <View style={styles.container}>
       {/* <ScrollView> */}
@@ -115,7 +80,14 @@ function IngredientsScreen() {
         <Modal
           visible={modalVisible}
           onDismiss={hideModal}
-          contentContainerStyle={styles.modal}
+          contentContainerStyle={[
+            styles.modal,
+            {
+              backgroundColor: darkMode
+                ? "#3d3c3c"
+                : theme.colors.mainBackgroundColor,
+            },
+          ]}
         >
           <TextInput
             // mode="outlined"
@@ -123,6 +95,7 @@ function IngredientsScreen() {
             value={ingredient}
             onChangeText={(text) => setIngredient(text)}
             style={styles.textInput}
+            textColor={theme.colors.mainTextColor}
           />
           <View style={{ alignItems: "center" }}>
             <Button
@@ -141,6 +114,7 @@ function IngredientsScreen() {
           mode="contained"
           labelStyle={styles.btnLabel}
           style={styles.btn}
+          onPress={handleNavigation}
         >
           Next
         </Button>

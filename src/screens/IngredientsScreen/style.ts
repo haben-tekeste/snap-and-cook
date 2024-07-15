@@ -22,6 +22,7 @@ export const useStyles = (theme: CustomTheme) => {
     title: {
       fontFamily: "SpaceGrotesk_700Bold",
       fontSize: 18,
+      color: theme.colors.mainTextColor,
     },
     more: {
       flexDirection: "row",
@@ -37,6 +38,7 @@ export const useStyles = (theme: CustomTheme) => {
     plusTitle: {
       fontFamily: "SpaceGrotesk_400Regular",
       fontSize: 18,
+      color: theme.colors.mainTextColor,
     },
     btn: {
       width: wp("90%"),
