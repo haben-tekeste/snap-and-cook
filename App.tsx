@@ -5,9 +5,9 @@ import RootNavigation from "./src/navigation/RootNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { store } from "./src/store";
 
-// if (__DEV__) {
-//   import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
-// }
+if (__DEV__) {
+  import("./ReactotronConfig").then(() => console.log("Reactotron Configured"));
+}
 
 import { defaultTheme } from "./constants/theme";
 
