@@ -3,7 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@assets": ["./assets/"]
+      "@assets/*": ["./assets/*"],
+      "@components/*": ["./src/Components/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@services/*": ["./src/services/*"],
+      "@utils/*": ["./src/utils/*"],
     },
     "target": "esnext",
     "module": "esnext"

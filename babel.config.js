@@ -8,9 +8,14 @@ module.exports = function (api) {
         {
           alias: {
             "@assets": "./assets/",
+            "@components": "./src/Components/",
+            "@screens":"./src/screens/",
+            "@hooks":"./src/hooks/",
+            "@utils":"./src/utils/",
           },
         },
       ],
+      "react-native-reanimated/plugin",
     ],
   };
 };
