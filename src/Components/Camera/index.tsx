@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { CameraType, Camera as ExpoCamera, FlashMode } from "expo-camera";
+import { CameraView, FlashMode } from "expo-camera";
 import { View, Alert, TouchableOpacity } from "react-native";
 import { Text } from "react-native-paper";
 import { useCapturePhoto } from "../../hooks/useCapturePhoto";
@@ -9,7 +9,7 @@ import { useStyles } from "./style";
 interface CameraProps {
   setImage: (value: string) => void;
   stopCamera: () => void;
-  setBlob: (blob: Blob | undefined) => void
+  setBlob: (blob: Blob | undefined) => void;
 }
 
 function Camera({ setImage, stopCamera, setBlob }: CameraProps) {
@@ -20,10 +20,10 @@ function Camera({ setImage, stopCamera, setBlob }: CameraProps) {
 
   return (
     <View style={styles.container}>
-      <ExpoCamera
+      <CameraView
         ref={(ref) => setCamera(ref)}
         style={styles.camera}
-        flashMode={FlashMode[flashMode]}
+        flash={flashMode}
         onCameraReady={() => setIsCameraReady(true)}
       >
         <View
@@ -97,7 +97,7 @@ function Camera({ setImage, stopCamera, setBlob }: CameraProps) {
             </View>
           </View>
         </View>
-      </ExpoCamera>
+      </CameraView>
     </View>
   );
 }
