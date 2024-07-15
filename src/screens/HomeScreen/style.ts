@@ -20,6 +20,7 @@ export const useStyles = (theme: CustomTheme) => {
       textAlign: "center",
       marginTop: 5,
       paddingHorizontal: 4,
+      color: theme.colors.mainTextColor,
     },
     icons: {
       marginTop: 35,

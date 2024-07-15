@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Image, Pressable } from "react-native";
-import { Text, Button, Surface, Icon, Modal, Portal } from "react-native-paper";
+import { Text, Button, Icon, Modal, Portal } from "react-native-paper";
 import mime from "mime";
 import FormData from "form-data";
 import { useStyles } from "./style";
-import { useGetIngredientsFromImageMutation } from "../../services/ingredients";
-import { useImagePicker } from "../../hooks/useImagePicker";
+import { useGetIngredientsFromImageMutation } from "@services/ingredients";
+import { useImagePicker } from "@hooks/useImagePicker";
 import { useAppSelector } from "../../store";
-import Camera from "../../Components/Camera";
+import Camera from "@components/Camera";
 import ImagePreview from "../../Components/ImagePreview";
 import { useAppNavigation } from "../../store";
-import Loader from "../../Components/Loader";
+import Loader from "@components/Loader";
 
 function ScannerScreen() {
   const [cameraOn, setCameraOn] = useState<boolean>(false);
@@ -72,7 +72,6 @@ function ScannerScreen() {
   if (isLoading) {
     return <Loader />;
   }
-
   return (
     <SafeAreaView style={styles.container}>
       {cameraOn ? (
