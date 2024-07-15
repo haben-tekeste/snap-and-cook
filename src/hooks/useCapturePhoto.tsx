@@ -1,30 +1,37 @@
 import { useState } from "react";
-import { Camera, CameraCapturedPicture, FlashMode } from "expo-camera";
+import {
+  Camera,
+  CameraCapturedPicture,
+  FlashMode,
+  useCameraPermissions,
+} from "expo-camera";
 import { Alert } from "react-native";
 import { fetchImageBlob } from "../../util";
+
+type CameraType = typeof Camera;
 
 type useCapturePhotoResults = [
   FlashMode,
   () => void,
   (cb: (value: string) => void) => void,
-  (value: Camera | null) => void,
+  (value: CameraType | null) => void,
   (value: boolean) => void
 ];
 
 export const useCapturePhoto = (
-  setBlob: (blob: Blob | undefined) => void,
+  setBlob: (blob: Blob | undefined) => void
 ): useCapturePhotoResults => {
-  const [camera, setCamera] = useState<Camera | null>();
+  const [camera, setCamera] = useState<CameraType | null>();
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const [flashMode, setFlashMode] = useState<FlashMode>(FlashMode.off);
+  const [flashMode, setFlashMode] = useState<FlashMode>("off");
 
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, requestPermission] = useCameraPermissions();
   const handleFlashMode = () => {
-    if (flashMode === FlashMode.on) {
-      setFlashMode(FlashMode.off);
-    } else if (flashMode === FlashMode.off) {
-      setFlashMode(FlashMode.on);
-    } else setFlashMode(FlashMode.auto);
+    if (flashMode === "on") {
+      setFlashMode("off");
+    } else if (flashMode === "off") {
+      setFlashMode("on");
+    } else setFlashMode("auto");
   };
 
   const takePicture = async (cb: (value: string) => void) => {
