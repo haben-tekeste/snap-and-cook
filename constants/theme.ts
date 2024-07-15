@@ -16,7 +16,7 @@ export const darkTheme = {
   colors: {
     primary: "#1AE51A",
     secondary: "",
-    mainBackgroundColor: "#292929",
+    mainBackgroundColor: "#121212",
     mainTextColor: "#ffffff",
     success: "#2cd113",
     warning: "#f7a205",
