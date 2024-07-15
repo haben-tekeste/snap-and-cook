@@ -10,12 +10,12 @@ export const useStyles = (theme: CustomTheme) => {
     container: {
       justifyContent: "center",
       alignItems: "center",
-      width: wp("90%"),
+      // width: wp("100%"),
     },
     title: {
       fontFamily: "SpaceGrotesk_700Bold",
       fontSize: 20,
+      color:theme.colors.mainTextColor
     },
-    
   });
 };
