@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { ingredientApiResponse } from "../types/api";
+import type { ingredientApiResponse, recipeApiResponse } from "../types/api";
 import type FormData from "form-data";
 
 export const ingredientsApi = createApi({
